@@ -1,3 +1,7 @@
+# Snake game for BBC MicroBit.
+#
+# Erik van Zijst <erik.van.zijst@gmail.com>
+
 from microbit import *
 import random
 
@@ -33,6 +37,7 @@ sleep(1000)
 def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
     snake = [(2, 2), (2, 3)]
+    score = 0
     tick = 500
     last = running_time()
 
@@ -47,17 +52,19 @@ def game():
             direction = (direction + 1) % 4
     
         if running_time() - last > tick:
+            score += 1
             # make a move
             head, tail = snake[0], snake[-1]
             
             # new head:
             head = ((head[0] + dirs[direction][0]) % 5, (head[1] + dirs[direction][1]) % 5)
             if head in snake:
-                return
+                return score
             snake.insert(0, head)
     
             if set_on(board, *head):
                 # eat, grow and place new food
+                score += 10
                 place_food(board)
             else:
                 set_off(board, *tail)
@@ -65,6 +72,5 @@ def game():
 
             last = running_time()
             paint(board)
-        
-game()
-display.scroll('game over')
+
+display.scroll('score: %d ' % game(), loop=True)
