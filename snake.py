@@ -5,6 +5,12 @@
 import random
 from microbit import *
 
+def shuffle(l):
+    for i in range(len(l) -1, 0, -1): 
+        j = random.randint(0, i + 1)
+        l[i], l[j] = l[j], l[i]
+    return l
+
 def set_off(board, x, y):
     board[y][x] = 0
 
@@ -25,7 +31,6 @@ dirs = ((0, -1),    # up
         (-1, 0))    # left
 
 display.scroll('snake ')
-
 def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
     snake = [(2, 3), (2, 4)]
@@ -53,7 +58,10 @@ def game():
                 return score
             snake.insert(0, head)
     
-            if set_on(board, *head):
+            if len(snake) == 5:
+                [(display.set_pixel(int(i / 5), i % 5, 0), sleep(100)) for i in shuffle(list(range(25)))]
+                return score + 100
+            elif set_on(board, *head) == 4:
                 # eat, grow and place new food
                 score += 10
                 place_food(board)
