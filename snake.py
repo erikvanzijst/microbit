@@ -58,10 +58,10 @@ def game():
                 return score
             snake.insert(0, head)
     
-            if len(snake) == 5:
+            if len(snake) == 25:
                 [(display.set_pixel(int(i / 5), i % 5, 0), sleep(100)) for i in shuffle(list(range(25)))]
                 return score + 100
-            elif set_on(board, *head) == 4:
+            elif set_on(board, *head):
                 # eat, grow and place new food
                 score += 10
                 place_food(board)
