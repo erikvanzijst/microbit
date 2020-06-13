@@ -1,4 +1,5 @@
 # Snake game for BBC MicroBit.
+# Load up in https://python.microbit.org/v/2.0
 #
 # Erik van Zijst <erik.van.zijst@gmail.com>
 
