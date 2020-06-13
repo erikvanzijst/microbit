@@ -1,16 +1,9 @@
 # Snake game for BBC MicroBit.
-# Load up in https://python.microbit.org/v/2.0
 #
 # Erik van Zijst <erik.van.zijst@gmail.com>
 
-from microbit import *
 import random
-
-def paint(board):
-    display.show(Image(":".join(("".join(map(str, row)) for row in board))))
-
-def value(board, x, y):
-    return board[y][x]
+from microbit import *
 
 def set_off(board, x, y):
     board[y][x] = 0
@@ -22,7 +15,7 @@ def set_on(board, x, y):
 def place_food(board):
     while True:
         x, y = random.randint(0, 4), random.randint(0, 4)
-        if not (board[y][x]):
+        if not board[y][x]:
             board[y][x] = 4
             break
 
@@ -31,19 +24,16 @@ dirs = ((0, -1),    # up
         (0, 1),     # down
         (-1, 0))    # left
 
-display.clear()
-display.scroll('snake')
-sleep(1000)
+display.scroll('snake ')
 
 def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
-    snake = [(2, 2), (2, 3)]
+    snake = [(2, 3), (2, 4)]
     score = 0
-    tick = 500
     last = running_time()
 
+    [set_on(board, *pos) for pos in snake]
     place_food(board)
-    paint(board)
 
     direction = 0
     while True:
@@ -52,7 +42,7 @@ def game():
         if button_b.was_pressed():
             direction = (direction + 1) % 4
     
-        if running_time() - last > tick:
+        if running_time() - last > 500:
             score += 1
             # make a move
             head, tail = snake[0], snake[-1]
@@ -71,7 +61,8 @@ def game():
                 set_off(board, *tail)
                 snake = snake[:-1]
 
+            # draw board on screen:
+            display.show(Image(":".join(("".join(map(str, row)) for row in board))))
             last = running_time()
-            paint(board)
 
 display.scroll('score: %d ' % game(), loop=True)
