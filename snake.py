@@ -30,7 +30,7 @@ dirs = ((0, -1),    # up
         (0, 1),     # down
         (-1, 0))    # left
 
-display.scroll('snake ')
+display.scroll('SNAKE ')
 def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
     snake = [(2, 3), (2, 4)]
@@ -73,4 +73,4 @@ def game():
             display.show(Image(":".join(("".join(map(str, row)) for row in board))))
             last = running_time()
 
-display.scroll('score: %d ' % game(), loop=True)
+display.scroll('SCORE: %d ' % game(), loop=True)
