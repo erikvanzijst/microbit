@@ -22,7 +22,7 @@ def place_food(board):
     while True:
         x, y = random.randint(0, 4), random.randint(0, 4)
         if not board[y][x]:
-            board[y][x] = 4
+            board[y][x] = 5
             break
 
 dirs = ((0, -1),    # up
@@ -34,13 +34,11 @@ display.scroll('SNAKE ')
 def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
     snake = [(2, 3), (2, 4)]
-    score = 0
-    last = 0
+    score, last, direction = 0, 0, 0
 
     [set_on(board, *pos) for pos in snake]
     place_food(board)
 
-    direction = 0
     while True:
         if button_a.was_pressed():
             direction = (direction - 1) % 4
