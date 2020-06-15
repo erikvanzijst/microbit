@@ -7,7 +7,7 @@ from microbit import *
 
 def shuffle(l):
     for i in range(len(l) -1, 0, -1): 
-        j = random.randint(0, i + 1)
+        j = random.randint(0, i)
         l[i], l[j] = l[j], l[i]
     return l
 
@@ -35,7 +35,7 @@ def game():
     board = [([0] * 5) for _ in range(5)]   # board[y][x]
     snake = [(2, 3), (2, 4)]
     score = 0
-    last = running_time()
+    last = 0
 
     [set_on(board, *pos) for pos in snake]
     place_food(board)
@@ -54,7 +54,7 @@ def game():
             
             # new head:
             head = ((head[0] + dirs[direction][0]) % 5, (head[1] + dirs[direction][1]) % 5)
-            if head in snake:
+            if head in snake[:-1]:
                 return score
             snake.insert(0, head)
     
